@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #fff;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .container {
+            display: none;
+            /* Hidden by default */
+            width: 400px;
+            height: 500px;
+        }
+
+        .container.active {
+            display: block;
+        }
+
+        canvas {
+            display: block;
+            image-rendering: pixelated;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="output"></div>
+
+    <script>
+        const images = [
+            'monk_source_1.png',
+            'monk_source_2.png',
+            'monk_source_3.png',
+            'monk_source_4.png',
+            'monk_source_5.png'
+        ];
+
+        let loadedCount = 0;
+
+        // Create containers
+        const output = document.getElementById('output');
+        images.forEach((_, i) => {
+            const div = document.createElement('div');
+            div.className = 'container';
+            div.id = 'container-' + i;
+            output.appendChild(div);
+        });
+
+        images.forEach((src, index) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = () => {
+                processImage(img, index);
+                loadedCount++;
+                if (loadedCount === images.length) {
+                    document.body.classList.add('done');
+                    showImage(0); // Show first one
+                }
+            };
+            img.onerror = () => {
+                console.error('Failed to load ' + src);
+                loadedCount++;
+            }
+        });
+
+        function processImage(img, index) {
+            const container = document.getElementById('container-' + index);
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Configuration
+            const pixelSize = 6;
+            const targetWidth = 400;
+
+            const aspect = img.height / img.width;
+            const targetHeight = targetWidth * aspect;
+
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+
+            // 1. Draw tiny
+            const tinyCanvas = document.createElement('canvas');
+            const tinyW = targetWidth / pixelSize;
+            const tinyH = targetHeight / pixelSize;
+            tinyCanvas.width = tinyW;
+            tinyCanvas.height = tinyH;
+            const tinyCtx = tinyCanvas.getContext('2d');
+            tinyCtx.drawImage(img, 0, 0, tinyW, tinyH);
+
+            // 2. Draw big
+            ctx.imageSmoothingEnabled = false;
+            ctx.drawImage(tinyCanvas, 0, 0, tinyW, tinyH, 0, 0, targetWidth, targetHeight);
+
+            // 3. Apply Retro Filters
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+
+                // Sepia/Warm
+                const tr = (r * 0.393) + (g * 0.769) + (b * 0.189);
+                const tg = (r * 0.349) + (g * 0.686) + (b * 0.168);
+                const tb = (r * 0.272) + (g * 0.534) + (b * 0.131);
+
+                data[i] = (r * 0.6) + (tr * 0.4) + 10;
+                data[i + 1] = (g * 0.6) + (tg * 0.4) + 5;
+                data[i + 2] = (b * 0.6) + (tb * 0.4);
+
+                // Contrast
+                const factor = (259 * (15 + 255)) / (255 * (259 - 15));
+                data[i] = factor * (data[i] - 128) + 128;
+                data[i + 1] = factor * (data[i + 1] - 128) + 128;
+                data[i + 2] = factor * (data[i + 2] - 128) + 128;
+            }
+
+            ctx.putImageData(imageData, 0, 0);
+            container.appendChild(canvas);
+        }
+
+        window.showImage = function (index) {
+            document.querySelectorAll('.container').forEach(el => el.classList.remove('active'));
+            const el = document.getElementById('container-' + index);
+            if (el) el.classList.add('active');
+        };
+    </script>
+</body>
+
+</html>

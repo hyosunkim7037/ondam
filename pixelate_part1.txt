@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body, html { 
+            margin: 0; padding: 0; 
+            background: #fff; 
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
+        canvas { display: block; image-rendering: pixelated; }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const img = new Image();
+        img.src = 'data:image/png;base64,

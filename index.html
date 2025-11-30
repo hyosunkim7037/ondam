@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>십육성좌의 깨달음</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Pretendard:wght@300;400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="screen active">
+        <div class="loader-content">
+            <div class="lotus-animation"></div>
+            <p class="loading-text">당신의 성좌를 찾고 있습니다...</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="screen hidden">
+        <header class="app-header">
+            <h1 class="logo">십육성좌</h1>
+        </header>
+
+        <main class="card-container">
+            <div class="monk-card">
+                <div class="card-image-wrapper">
+                    <img id="monk-image" src="" alt="Monk Illustration" class="card-image">
+                    <button id="btn-story-envelope" class="envelope-button" aria-label="Read Story"></button>
+                </div>
+                <div class="card-content">
+                    <span id="monk-mbti" class="mbti-tag"></span>
+                    <h2 id="monk-name" class="monk-name"></h2>
+                    <p id="monk-catchphrase" class="monk-catchphrase"></p>
+                    <div class="divider"></div>
+                    <p id="monk-quote" class="monk-quote"></p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <div class="secondary-actions">
+                <button id="btn-share" class="btn-icon" aria-label="Share">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                </button>
+                <button id="btn-audio" class="btn-icon" aria-label="Toggle Audio">
+                    <svg id="icon-audio-off" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                        <path d="M9 9v6a3 3 0 0 0 5.12 2.12M15 9.34V4l-6.81 4H5v6h1.23"></path>
+                    </svg>
+                    <svg id="icon-audio-on" class="hidden" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                </button>
+            </div>
+        </footer>
+        <div id="youtube-player" style="display: none;"></div>
+    </div>
+
+    <!-- Story Modal -->
+    <div id="story-modal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button id="btn-close-modal" class="btn-close" aria-label="Close">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="modal-body">
+                <h3 id="modal-title" class="modal-title">법명</h3>
+                <div id="modal-text" class="modal-text">
+                    <!-- Story content goes here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
