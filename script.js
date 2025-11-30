@@ -186,23 +186,48 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('youtube-player', {
     height: '0',
     width: '0',
-    videoId: 'Ut9Xjq_4__A',
+    videoId: 'Ut9Xjq_4__A', // New BGM
     playerVars: {
       'playsinline': 1,
-      'loop': 1,
-      'playlist': 'Ut9Xjq_4__A', // Required for loop to work
-      'controls': 0,
       'autoplay': 1,
-      'mute': 1 // Mute needed for autoplay
+      'controls': 0,
+      'loop': 1,
+      'playlist': 'Ut9Xjq_4__A',
+      'start': 7
     },
     events: {
-      'onReady': onPlayerReady
+      'onReady': (event) => {
+        event.target.playVideo();
+        event.target.unMute();
+        isAudioPlaying = true;
+
+        // Update UI
+        const iconOff = document.getElementById('icon-audio-off');
+        const iconOn = document.getElementById('icon-audio-on');
+        if (iconOff && iconOn) {
+          iconOff.classList.add('hidden');
+          iconOn.classList.remove('hidden');
+        }
+
+        // Browser Autoplay Policy Workaround: Unmute on first interaction
+        const unmuteOnInteraction = () => {
+          if (player && player.unMute) {
+            player.unMute();
+            if (player.getPlayerState() !== 1) { // If not playing
+              player.playVideo();
+            }
+          }
+          document.removeEventListener('click', unmuteOnInteraction);
+          document.removeEventListener('touchstart', unmuteOnInteraction);
+          document.removeEventListener('keydown', unmuteOnInteraction);
+        };
+
+        document.addEventListener('click', unmuteOnInteraction);
+        document.addEventListener('touchstart', unmuteOnInteraction);
+        document.addEventListener('keydown', unmuteOnInteraction);
+      }
     }
   });
-}
-
-function onPlayerReady(event) {
-  event.target.playVideo();
 }
 
 function selectRandomMonk() {
@@ -244,6 +269,34 @@ function renderMonk(monk) {
   }
 
   imageWrapper.appendChild(imgElement);
+
+  // Audio Button (Green Pixel Style) - Top Right
+  const audioBtn = document.createElement('button');
+  audioBtn.id = 'btn-audio-pixel';
+  audioBtn.className = 'btn-audio-pixel';
+  audioBtn.textContent = 'BGM ON'; // Initial text
+
+  audioBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevent bubbling
+    isAudioPlaying = !isAudioPlaying;
+
+    if (isAudioPlaying) {
+      audioBtn.textContent = 'BGM ON';
+      audioBtn.classList.remove('muted');
+      if (player && player.playVideo) {
+        player.unMute();
+        player.playVideo();
+      }
+    } else {
+      audioBtn.textContent = 'BGM OFF';
+      audioBtn.classList.add('muted');
+      if (player && player.pauseVideo) {
+        player.pauseVideo(); // Or mute? User asked for auto play, maybe just mute is better but pause is fine.
+      }
+    }
+  });
+
+  imageWrapper.appendChild(audioBtn);
 
   // Envelope Button inside Image Wrapper
   const envelopeBtn = document.createElement('button');
@@ -334,28 +387,6 @@ function setupEventListeners() {
   btnCloseModal.addEventListener('click', closeModal);
   modalOverlay.addEventListener('click', closeModal);
 
-  // Share
-  const btnShare = document.getElementById('btn-share');
-  btnShare.addEventListener('click', async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: '십육성좌의 깨달음',
-          text: `${currentMonk.name} - ${currentMonk.quote}\n#십육성좌 #불교MBTI`,
-          url: window.location.href,
-        });
-      } catch (err) {
-        console.log('Error sharing:', err);
-      }
-    } else {
-      const textToCopy = `${currentMonk.name} - "${currentMonk.quote}"\n${window.location.href}`;
-      navigator.clipboard.writeText(textToCopy).then(() => {
-        alert('내용이 클립보드에 복사되었습니다.');
-      }).catch(err => {
-        console.error('Failed to copy:', err);
-      });
-    }
-  });
 
   // Audio
   const btnAudio = document.getElementById('btn-audio');
