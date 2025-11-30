@@ -1,17 +1,19 @@
 :root {
-    --color-bg: #87CEEB;
-    /* Sky blue fallback */
+    --color-bg: #f4e4bc;
+    /* Vintage Paper */
     --color-text: #2C2C2C;
-    --color-accent: #D4AF37;
-    /* Golden Buddha Gold */
-    --color-secondary: #2E8B57;
-    /* Mountain Green */
+    --color-accent: #d32f2f;
+    /* Retro Red */
+    --color-secondary: #388e3c;
+    /* Retro Green */
+    --color-screen-bg: #5c94fc;
+    /* Mario Sky Blue */
     --color-overlay: rgba(0, 0, 0, 0.6);
-    --color-card-bg: rgba(255, 255, 255, 0.95);
-    /* Semi-transparent white */
+    --color-card-bg: #f4e4bc;
 
+    --font-pixel: 'Press Start 2P', cursive;
+    --font-mono: 'VT323', monospace;
     --font-serif: 'Noto Serif KR', serif;
-    --font-sans: 'Pretendard', sans-serif;
 
     --spacing-sm: 8px;
     --spacing-md: 16px;
@@ -26,18 +28,19 @@
 }
 
 body {
-    font-family: var(--font-sans);
+    font-family: var(--font-mono);
     background-color: var(--color-bg);
     background-image: url('background_pixel.jpg');
+    /* Keep or remove based on preference */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     background-repeat: no-repeat;
-
     color: var(--color-text);
     line-height: 1.6;
     overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: none;
+    /* Crisper pixels */
 }
 
 /* Utilities */
@@ -57,8 +60,7 @@ body {
 #loading-screen {
     justify-content: center;
     align-items: center;
-    background-color: #fff;
-    /* Keep loading screen clean */
+    background-color: var(--color-bg);
     z-index: 100;
 }
 
@@ -68,19 +70,21 @@ body {
 }
 
 .lotus-animation {
-    width: 80px;
-    height: 80px;
+    width: 64px;
+    height: 64px;
     background-color: var(--color-accent);
     margin: 0 auto var(--spacing-lg);
-    border-radius: 50% 0 50% 0;
-    animation: bloom 2s infinite alternate ease-in-out;
+    image-rendering: pixelated;
+    /* Placeholder for pixel animation */
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
 }
 
 .loading-text {
-    font-family: var(--font-serif);
-    font-size: 1.1rem;
-    color: var(--color-accent);
-    opacity: 0.8;
+    font-family: var(--font-pixel);
+    font-size: 0.8rem;
+    color: var(--color-text);
+    margin-top: var(--spacing-md);
+    line-height: 1.5;
 }
 
 /* Main Content */
@@ -88,7 +92,6 @@ body {
     padding: var(--spacing-md);
     max-width: 480px;
     margin: 0 auto;
-    /* Removed radial gradient to let background show */
 }
 
 .app-header {
@@ -97,13 +100,12 @@ body {
 }
 
 .logo {
-    font-family: var(--font-serif);
+    font-family: var(--font-pixel);
     font-size: 1.2rem;
-    font-weight: 700;
-    color: #fff;
-    /* White text on background */
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    letter-spacing: 0.1em;
+    color: var(--color-text);
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
 }
 
 .card-container {
@@ -114,79 +116,347 @@ body {
     padding: var(--spacing-md) 0;
 }
 
+/* Single Beige Card Layout */
 .monk-card {
-    background: var(--color-card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 16px;
+    background-color: #f4e4bc;
+    /* Vintage Paper */
+    background-image:
+        linear-gradient(rgba(139, 69, 19, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139, 69, 19, 0.03) 1px, transparent 1px);
+    background-size: 4px 4px;
+    border: none;
+    border-radius: 24px;
     padding: var(--spacing-lg);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     width: 100%;
     text-align: center;
     animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-    backdrop-filter: blur(5px);
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    overflow: hidden;
+}
+
+/* Removed .retro-game-card as it's merged into .monk-card */
+
+.card-header-text {
+    font-family: var(--font-pixel);
+    font-size: 0.8rem;
+    /* Slightly larger for main header */
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+/* ... (Image Wrapper and Footer styles remain mostly same, just scoped if needed) ... */
+
+/* Profile Info Section - Adjusted for Beige Background */
+.profile-info {
+    padding: var(--spacing-sm) 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.mbti-pill {
+    display: inline-block;
+    border: 2px solid #2E8B57;
+    /* Thicker border */
+    color: #2E8B57;
+    background-color: rgba(255, 255, 255, 0.5);
+    /* Semi-transparent white bg */
+    border-radius: 20px;
+    padding: 6px 20px;
+    font-family: var(--font-sans);
+    /* Use sans-serif for clean look */
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+}
+
+.profile-name {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.profile-subtitle {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: var(--spacing-md);
+}
+
+.profile-divider {
+    width: 50px;
+    height: 3px;
+    background-color: #D4AF37;
+    /* Gold */
+    margin: 0 auto var(--spacing-md);
+    opacity: 0.8;
+}
+
+.profile-quote {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #333;
+    font-style: italic;
+    word-break: keep-all;
 }
 
 .card-image-wrapper {
     width: 100%;
-    aspect-ratio: 3/4;
-    background-color: #f0f0f0;
-    border-radius: 12px;
+    aspect-ratio: 4/3;
+    /* CRT Ratio */
+    background-color: var(--color-screen-bg);
+    border: 4px solid #000;
+    border-radius: 20px;
+    /* CRT Curve */
     overflow: hidden;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
     position: relative;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+    /* Inner shadow for depth */
+}
+
+/* CRT Scanline Effect */
+.card-image-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%,
+            rgba(0, 0, 0, 0.1) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Floating Animation */
+@keyframes float {
+    0% {
+        transform: translateY(0px) scale(0.8);
+    }
+
+    50% {
+        transform: translateY(-10px) scale(0.8);
+    }
+
+    100% {
+        transform: translateY(0px) scale(0.8);
+    }
 }
 
 .card-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    mix-blend-mode: normal;
+    object-fit: contain;
+    /* Keep pixel art aspect ratio */
     image-rendering: pixelated;
-    /* Kept for pixel art support */
+    transform: scale(0.8);
+    /* Add some padding inside screen */
+    animation: float 3s ease-in-out infinite;
+    /* Added animation */
+}
+
+/* New Footer Layout Styles */
+.card-content {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--spacing-md);
+    text-align: left;
+    align-items: start;
+    padding: var(--spacing-sm);
+    border-top: none;
+    /* Removed border */
+    margin-top: 0;
+    padding-top: var(--spacing-sm);
+}
+
+.card-info-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.mbti-icon {
+    width: 48px;
+    height: 48px;
+    background-color: #000;
+    /* Placeholder for pixel avatar */
+    image-rendering: pixelated;
+    margin-bottom: 4px;
+    border-radius: 4px;
 }
 
 .mbti-tag {
+    font-family: var(--font-pixel);
+    font-size: 0.6rem;
+    color: var(--color-text);
+    margin-top: 4px;
+}
+
+.card-info-right {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-left-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.how-to-play-title {
+    font-family: var(--font-pixel);
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.monk-icon-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mini-monk-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #d32f2f;
+    /* Red background for icon */
+    border: 2px solid #000;
+    image-rendering: pixelated;
+}
+
+.monk-label {
+    font-family: var(--font-pixel);
+    font-size: 0.6rem;
+    line-height: 1.4;
+    color: #000;
+}
+
+.footer-right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.directions-title {
+    font-family: var(--font-pixel);
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 4px;
+}
+
+.directions-text {
+    font-family: var(--font-pixel);
+    font-size: 0.6rem;
+    line-height: 1.6;
+    color: #000;
+}
+
+.seon-logo-container {
+    margin-top: 12px;
+    text-align: right;
+}
+
+.seon-logo {
     display: inline-block;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--color-secondary);
-    border: 1px solid var(--color-secondary);
-    padding: 4px 12px;
+    background-color: #d32f2f;
+    /* Nintendo Red */
+    color: #fff;
+    font-family: var(--font-pixel);
+    /* Or a bolder sans-serif if preferred */
+    font-size: 1.2rem;
+    font-weight: 900;
+    padding: 4px 16px;
     border-radius: 20px;
-    margin-bottom: var(--spacing-sm);
-    letter-spacing: 0.05em;
-    background: rgba(255, 255, 255, 0.5);
+    /* Pill shape */
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px #d32f2f;
+    /* Double border effect */
+    font-style: italic;
+    letter-spacing: 1px;
+}
+
+/* Hide old elements if they exist */
+.mbti-icon,
+.mbti-tag,
+.card-info-left,
+.card-info-right {
+    /* We might repurpose these or remove them in JS */
 }
 
 .monk-name {
-    font-family: var(--font-serif);
-    font-size: 1.8rem;
-    margin-bottom: 4px;
+    font-family: var(--font-pixel);
+    font-size: 1rem;
     color: var(--color-text);
+    line-height: 1.2;
 }
 
 .monk-catchphrase {
-    font-size: 0.95rem;
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
     color: #555;
-    margin-bottom: var(--spacing-lg);
+    font-weight: bold;
 }
 
 .divider {
-    width: 40px;
-    height: 2px;
-    background-color: var(--color-accent);
-    margin: 0 auto var(--spacing-lg);
-    opacity: 0.5;
+    display: none;
+    /* Hide for this layout */
 }
 
 .monk-quote {
-    font-family: var(--font-serif);
+    font-family: var(--font-mono);
     font-size: 1.1rem;
-    line-height: 1.6;
+    line-height: 1.4;
     color: #444;
-    word-break: keep-all;
-    font-style: italic;
+    font-style: normal;
+}
+
+/* Envelope Button - Floating on screen or below? */
+.envelope-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 48px;
+    height: 36px;
+    background-image: url('envelope_closed.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    image-rendering: pixelated;
+    z-index: 10;
+    filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.3));
+}
+
+.envelope-button:hover {
+    transform: scale(1.1);
+}
+
+.envelope-button.open {
+    background-image: url('envelope_open.png');
+    height: 48px;
+    transform: scale(1.1);
 }
 
 /* Footer & Buttons */
@@ -197,39 +467,6 @@ body {
     gap: var(--spacing-md);
 }
 
-.envelope-button {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 64px;
-    /* Adjust based on pixel art size */
-    height: 48px;
-    background-image: url('envelope_closed.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    image-rendering: pixelated;
-    transition: transform 0.2s;
-    z-index: 10;
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
-}
-
-.envelope-button:hover {
-    transform: translate(-50%, -50%) scale(1.1);
-}
-
-.envelope-button.open {
-    background-image: url('envelope_open.png');
-    width: 64px;
-    /* Adjust if open size is different, usually taller */
-    height: 64px;
-    transform: translate(-50%, -50%) scale(1.2);
-}
-
 .secondary-actions {
     display: flex;
     justify-content: center;
@@ -237,28 +474,26 @@ body {
 }
 
 .btn-icon {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
+    background: #000;
+    border-radius: 4px;
     width: 40px;
     height: 40px;
     border: none;
     color: #fff;
-    /* White icons on background */
     cursor: pointer;
     padding: 8px;
-    transition: background-color 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
 }
 
-.btn-icon:hover,
 .btn-icon:active {
-    background-color: rgba(255, 255, 255, 0.4);
-    color: #fff;
+    transform: translate(2px, 2px);
+    box-shadow: none;
 }
 
-/* Modal */
+/* Modal - Retro Game Style */
 .modal {
     position: fixed;
     top: 0;
@@ -268,8 +503,7 @@ body {
     z-index: 1000;
     display: flex;
     justify-content: center;
-    align-items: flex-end;
-    /* Bottom sheet style on mobile */
+    align-items: center;
 }
 
 .modal-overlay {
@@ -285,48 +519,86 @@ body {
 
 .modal-content {
     position: relative;
-    background-color: var(--color-bg);
-    width: 100%;
+    background-color: #f4e4bc;
+    /* Parchment beige */
+    background-image:
+        linear-gradient(rgba(139, 69, 19, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139, 69, 19, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    /* Pixel grid effect */
+    width: 90%;
     max-width: 480px;
     max-height: 85vh;
-    border-radius: 20px 20px 0 0;
-    padding: var(--spacing-xl) var(--spacing-lg);
+    border-radius: 4px;
+    border: 4px solid #000;
+    /* Solid black border for game cartridge feel */
+    padding: var(--spacing-lg);
     overflow-y: auto;
     animation: slideUpModal 0.3s ease-out;
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .btn-close {
     position: absolute;
-    top: var(--spacing-md);
-    right: var(--spacing-md);
+    top: 8px;
+    right: 8px;
     background: none;
     border: none;
-    color: #888;
+    color: #000;
     cursor: pointer;
     padding: 8px;
+    font-family: var(--font-pixel);
+    font-size: 1.5rem;
+    z-index: 10;
 }
 
 .modal-title {
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    margin-bottom: var(--spacing-lg);
-    color: var(--color-accent);
+    font-family: var(--font-pixel);
+    font-size: 1rem;
+    margin-bottom: var(--spacing-md);
+    color: #000;
     text-align: center;
+    line-height: 1.4;
+    text-transform: uppercase;
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 .modal-body {
-    line-height: 1.8;
-    color: var(--color-text);
+    background-color: #5c94fc;
+    /* Mario Sky Blue */
+    border: 4px solid #000;
+    border-radius: 12px;
+    padding: var(--spacing-md);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+/* Scanline effect for modal body */
+.modal-body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%,
+            rgba(0, 0, 0, 0.1) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    border-radius: 8px;
+    /* Match inner radius */
 }
 
 .modal-text {
-    font-size: 1rem;
-    line-height: 1.8;
-    color: #444;
+    font-family: var(--font-mono);
+    font-size: 1.3rem;
+    line-height: 1.5;
+    color: #fff;
     white-space: pre-line;
-    /* Preserves line breaks from JSON */
-    text-align: justify;
+    text-align: left;
+    text-shadow: 2px 2px 0 #000;
+    /* Retro shadow for readability */
 }
 
 /* Animations */
@@ -336,18 +608,6 @@ body {
     }
 
     to {
-        opacity: 1;
-    }
-}
-
-@keyframes bloom {
-    0% {
-        transform: scale(0.8) rotate(0deg);
-        opacity: 0.7;
-    }
-
-    100% {
-        transform: scale(1.1) rotate(5deg);
         opacity: 1;
     }
 }
@@ -376,12 +636,7 @@ body {
 
 /* Desktop adjustments */
 @media (min-width: 481px) {
-    .modal {
-        align-items: center;
-    }
-
     .modal-content {
-        border-radius: 12px;
         max-height: 80vh;
     }
 }
